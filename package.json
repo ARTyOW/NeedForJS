@@ -1,0 +1,14 @@
+{
+  "name": "needforjs",
+  "version": "1.0.0",
+  "description": "race game",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Artyom Kravchuk",
+  "license": "ISC",
+  "dependencies": {
+    "jshint": "^2.12.0"
+  }
+}
