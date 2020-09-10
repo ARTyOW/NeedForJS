@@ -3,7 +3,6 @@
 const score = document.querySelector(".score"),
     start = document.querySelector(".start"),
     gameArea = document.querySelector(".gameArea"),
-    stop = document.querySelector(".stop"),
     car = document.createElement("div");
     car.classList.add("car");
 // Клавиши управления
@@ -30,6 +29,12 @@ let getQuantityElements = heightElement => {
 // Старт игры
 let startGame = () => {
     start.classList.add("hide");
+    gameArea.innerHTML = '';
+    setting.score = 0;
+    score.style.top = start.offsetHeight;
+    car.style.left = '125px';
+    car.style.bottom = '10px';
+    car.style.top = 'auto';
     for(let i = 0; i < getQuantityElements(100); i++){
         const line = document.createElement("div");
         line.classList.add("line");
@@ -47,7 +52,6 @@ let startGame = () => {
         gameArea.appendChild(enemy);
         
     }
-    stop.classList.remove("hide");
     car.classList.remove("hide");
     gameArea.appendChild(car);
     setting.start = true;
@@ -70,6 +74,18 @@ let moveRoad = () => {
 let moveEnemy = () => {
     let enemy = document.querySelectorAll('.enemy');
     enemy.forEach(function(e){
+        let carRect = car.getBoundingClientRect();
+        let enemyRect = e.getBoundingClientRect();
+        if(carRect.top <= enemyRect.bottom && 
+        carRect.bottom >= enemyRect.top &&
+        carRect.left <= enemyRect.right && 
+        carRect.right >= enemyRect.left){
+            setting.start = false;
+            console.warn("ДТП!");
+            start.classList.remove('hide');
+            start.textContent = 'Начать заново';
+            score.style.top = start.offsetHeight;
+        }
         e.y += setting.speed / 1.3;
         e.style.top = e.y + 'px';
         if(e.y >= document.documentElement.clientHeight){
@@ -82,6 +98,8 @@ let moveEnemy = () => {
 let playGame = () => {
     moveRoad();
     moveEnemy();
+    setting.score += setting.speed;
+    score.textContent = 'СЧЕТ: ' + setting.score;
     if(setting.start){
         if(keys.ArrowLeft && setting.x >0){
             setting.x -= setting.speed;
@@ -102,31 +120,27 @@ let playGame = () => {
     }
 };
 // Конец игры
-let stopGame = () => {
+/* let stopGame = () => {
     start.classList.remove("hide");
     car.classList.add("hide");
     stop.classList.add("hide");
     setting.start = false;
-};
+}; */
 // Начало движения объекта
 let startRun = e => {
     e.preventDefault();
     keys[e.key] = true;
-    console.log(keys);
 };
 // Конец движения объекта
 let stopRun = e => {
     e.preventDefault();
     keys[e.key] = false;
-    console.log(keys);
 };
 // =============================
 
 // === НАЗНАЧЕНИЕ СОБЫТИЙ ===
 // Старт игры по клику
 start.addEventListener("click", startGame);
-// Конец игры по клику
-stop.addEventListener("click", stopGame);
 // Нажатие кнопки
 document.addEventListener("keydown", startRun);
 // Отжатие кнопки
