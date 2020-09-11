@@ -2,13 +2,19 @@
   "name": "needforjs",
   "version": "1.0.0",
   "description": "race game",
-  "main": "app.js",
+  "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
   "author": "Artyom Kravchuk",
   "license": "ISC",
   "dependencies": {
     "jshint": "^2.12.0"
+  },
+  "devDependencies": {
+    "electron": "^10.1.1",
+    "electron-packager": "^15.1.0",
+    "path": "^0.12.7",
+    "url": "^0.11.0"
   }
 }
